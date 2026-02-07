@@ -1,10 +1,14 @@
 class Solution {
 public:
+
+	// time : O(k^n)
+	// space: O(n) due to fn call stack
+
 	int f(const vector<int>& arr, int k, int i) {
 
 		// base case
 
-		if (i == n) {
+		if (i == arr.size()) {
 			return 0;
 		}
 
@@ -18,7 +22,7 @@ public:
 		int maxSoFar = 0; // INT_MIN
 		int maxij = arr[i]; // 0 // INT_MIN
 
-		for (int j = i; j <= i + k - 1 and j < n; j++) {
+		for (int j = i; j <= i + k - 1 and j < arr.size(); j++) {
 			maxij = max(maxij, arr[j]);
 			maxSoFar = max(maxSoFar, (j - i + 1) * maxij + f(arr, k, j + 1));
 		}
