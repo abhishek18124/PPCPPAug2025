@@ -26,6 +26,7 @@ e.g.
 #include<iostream>
 #include<vector>
 #include<queue>
+#include<algorithm>
 
 using namespace std;
 
@@ -42,6 +43,59 @@ int main() {
 		adj[u].push_back(v);
 		adj[v].push_back(u);
 	}
+
+	int s = 0; // source node
+
+	vector<int> distMap(n);
+	distMap[s] = 0;
+
+	vector<bool> vis(n, false);
+	vis[s] = true;
+
+	vector<int> parMap(n);
+	parMap[s] = -1;
+
+	queue<int> q;
+	q.push(s);
+
+	while (!q.empty()) {
+
+		int cur = q.front();
+		q.pop();
+
+		for (int ngb : adj[cur]) {
+			if (!vis[ngb]) {
+				vis[ngb] = true;
+				q.push(ngb);
+				distMap[ngb] = distMap[cur] + 1; // since we are visiting ngb cuz of cur therefore cur is the parent of ngb in the bfs tree
+				parMap[ngb] = cur;
+			}
+		}
+
+	}
+
+	for (int i = 0; i < n; i++) {
+		cout << "dist(" << i << ") = " << distMap[i] << endl;
+	}
+
+	cout << endl;
+
+	for (int i = 0; i < n; i++) {
+		cout << "par(" << i << ") = " << parMap[i] << endl;
+	}
+
+	int d = 8; // destintion
+
+	vector<int> path = {d};
+
+	while (parMap[d] != -1) {
+		d = parMap[d];
+		path.push_back(d);
+	}
+
+	reverse(path.begin(), path.end());
+
+	for (int x : path) cout << x << " ";
 
 	return 0;
 }

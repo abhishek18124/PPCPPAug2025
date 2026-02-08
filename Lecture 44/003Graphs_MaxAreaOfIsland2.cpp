@@ -1,6 +1,9 @@
 class Solution {
 public:
 
+	vector<int> dx = {0, 0, -1, 1};
+	vector<int> dy = {1, -1, 0, 0};
+
 	int dfs(int i, int j,
 	        const vector<vector<int>>& grid,
 	        vector<vector<bool>>& vis,
@@ -8,28 +11,13 @@ public:
 		vis[i][j] = true;
 		int cnt = 1; // to track the size of the component
 
-		int nx = i;
-		int ny = j + 1;
-		if (nx >= 0 and nx < m and ny >= 0 and ny < n and grid[nx][ny] == 1 and !vis[nx][ny]) {
-			cnt += dfs(nx, ny, grid, vis, m, n);
-		}
+		for (int k = 0; k < 4; k++) {
+			int nx = i + dx[k];
+			int ny = j + dy[k];
+			if (nx >= 0 and nx < m and ny >= 0 and ny < n and grid[nx][ny] == 1 and !vis[nx][ny]) {
+				cnt += dfs(nx, ny, grid, vis, m, n);
+			}
 
-		nx = i;
-		ny = j - 1;
-		if (nx >= 0 and nx < m and ny >= 0 and ny < n and grid[nx][ny] == 1 and !vis[nx][ny]) {
-			cnt += dfs(nx, ny, grid, vis, m, n);
-		}
-
-		nx = i - 1;
-		ny = j;
-		if (nx >= 0 and nx < m and ny >= 0 and ny < n and grid[nx][ny] == 1 and !vis[nx][ny]) {
-			cnt += dfs(nx, ny, grid, vis, m, n);
-		}
-
-		nx = i + 1;
-		ny = j;
-		if (nx >= 0 and nx < m and ny >= 0 and ny < n and grid[nx][ny] == 1 and !vis[nx][ny]) {
-			cnt += dfs(nx, ny, grid, vis, m, n);
 		}
 
 		return cnt;

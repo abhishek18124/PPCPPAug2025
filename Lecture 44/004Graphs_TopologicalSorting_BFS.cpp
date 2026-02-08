@@ -35,7 +35,50 @@ using namespace std;
 
 int main() {
 
-	// todo ...
+	int n, m;
+	cin >> n >> m;
+
+	vector <vector<int>>adj(n);
+	for (int i = 0; i < m; i++) {
+		int u, v;
+		cin >> u >> v;
+		adj[u].push_back(v);
+	}
+
+	vector<int> indegMap(n, 0);
+	for (int i = 0; i < n; i++) {
+		for (int ngb : adj[i]) {
+			indegMap[ngb]++;
+		}
+	}
+
+	// for (int i = 0; i < n; i++) {
+	// 	cout << "inDeg(" << i << ") = " << indegMap[i] << endl;
+	// }
+
+	queue<int> q;
+	for (int i = 0; i < n; i++) {
+		if (indegMap[i] == 0) {
+			q.push(i);
+		}
+	}
+
+	while (!q.empty()) {
+
+		int cur = q.front();
+		q.pop();
+
+		cout << cur << " ";
+
+		for (int ngb : adj[cur]) {
+			indegMap[ngb]--;
+			if (indegMap[ngb] == 0) {
+				// all the dependencies for ngb have been resolved
+				q.push(ngb);
+			}
+		}
+
+	}
 
 	return 0;
 }
